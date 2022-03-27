@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 //@CrossOrigin("http://localhost:3000")
 @RestController
@@ -32,5 +33,10 @@ public class FileCtrl {
                 .ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileS3.getFileName() + "\"")
                 .body(fileS3.getResource());
+    }
+
+    @GetMapping("/File")
+    public List<String> showAllFiles() throws IOException {
+        return fileRepository.getAll();
     }
 }

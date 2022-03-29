@@ -1,9 +1,13 @@
 version: '3'
 
+volumes:
+  s3-data:
+    external: true
+
 services:
   localstack:
     image: localstack/localstack-full:latest
-    container_name: localstack_demo
+    container_name: localstack
     ports:
       - "4566:4566" # Edge Port
       - "4569:4569" # Dynamo DB Port
@@ -20,9 +24,16 @@ services:
       - PORT_WEB_UI=8080
     volumes:
       - s3-data:/var/lib/s3
-volumes:
-  s3-data:
-    name: "s3-data"
+  s3-app:
+      depends_on:
+        - localstack
+      build:
+        context: ./s3
+        dockerfile: Dockerfile
+      networks:
+        - skynet-s3
+      ports:
+        - 8082:8082
 networks:
   skynet-s3:
     name: "skynet-s3"

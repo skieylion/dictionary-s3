@@ -1,12 +1,9 @@
-version: '2'
+version: '3'
 
 services:
   localstack:
     image: localstack/localstack-full:latest
     container_name: localstack_demo
-    networks:
-      skynet:
-        ipv4_address: 172.21.0.8
     ports:
       - "4566:4566" # Edge Port
       - "4569:4569" # Dynamo DB Port
@@ -14,38 +11,18 @@ services:
       - "4572:4572" # S3 Port
       - "4574:4574" # Lambda Port
       - "8080:8080" # Web-UI Port
-#    networks:
-#      skynet:
-#        ipv4_address: 172.20.0.7
+    networks:
+      - skynet-s3
     environment:
       - SERVICES=s3
       - DEBUG=1
       - DATA_DIR=/var/lib/s3/data
-      #- DATA_DIR=/tmp/localstack/data
       - PORT_WEB_UI=8080
     volumes:
       - s3-data:/var/lib/s3
-      #- './.localstack:/tmp/localstack'
-      #- '/var/run/docker.sock:/var/run/docker.sock'
-  s3-app:
-    depends_on:
-      - localstack
-    networks:
-      skynet:
-        ipv4_address: 172.21.0.4
-    build:
-      context: ./s3
-      dockerfile: Dockerfile
-    ports:
-      - 8082:8082
 volumes:
   s3-data:
-#    networks:
-#      skynet:
-#        ipv4_address: 172.21.0.4
+    name: "s3-data"
 networks:
-  skynet:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 172.21.0.0/24
+  skynet-s3:
+    name: "skynet-s3"

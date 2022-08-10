@@ -19,22 +19,22 @@ public class FileCtrl {
 
     private final FileRepository fileRepository;
 
-    @PostMapping(value = "/File", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public void upload(@RequestParam("fileId") String fileId, @RequestPart("file") MultipartFile multipartFile) throws IOException {
+    @CrossOrigin("http://localhost:3000")
+    @PostMapping(value = "/Files", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public void upload(@RequestParam("fileId") String fileId, @RequestParam("file") MultipartFile multipartFile) throws IOException {
         fileRepository.save(fileId, multipartFile);
     }
 
-    @GetMapping("/File/{fileId}")
+    @GetMapping("/Files/{fileId}")
     public ResponseEntity<Resource> download(@PathVariable("fileId") String fileId) throws IOException {
         FileS3 fileS3 = fileRepository.get(fileId);
-
         return ResponseEntity
                 .ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileS3.getFileName() + "\"")
                 .body(fileS3.getResource());
     }
 
-    @GetMapping("/File")
+    @GetMapping("/Files")
     public List<String> showAllFiles() throws IOException {
         return fileRepository.getAll();
     }

@@ -9,6 +9,6 @@ import java.util.List;
 public interface FileRepository {
     void save(String fileId,MultipartFile multipartFile) throws IOException;
     FileS3 get(String fileId) throws IOException;
-    void delete();
+    void delete(String fileId);
     List<String> getAll() throws IOException;
 }

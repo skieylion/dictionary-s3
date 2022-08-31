@@ -19,12 +19,19 @@ public class FileCtrl {
 
     private final FileRepository fileRepository;
 
-    @CrossOrigin("http://localhost:3000")
+    @CrossOrigin("http://localhost:8081")
     @PostMapping(value = "/Files", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public void upload(@RequestParam("fileId") String fileId, @RequestParam("file") MultipartFile multipartFile) throws IOException {
         fileRepository.save(fileId, multipartFile);
     }
 
+    @CrossOrigin("http://localhost:8081")
+    @DeleteMapping("/Files/{fileId}")
+    public void delete(@PathVariable("fileId") String fileId) {
+        fileRepository.delete(fileId);
+    }
+
+    @CrossOrigin("http://localhost:8081")
     @GetMapping("/Files/{fileId}")
     public ResponseEntity<Resource> download(@PathVariable("fileId") String fileId) throws IOException {
         FileS3 fileS3 = fileRepository.get(fileId);
@@ -34,6 +41,7 @@ public class FileCtrl {
                 .body(fileS3.getResource());
     }
 
+    @CrossOrigin("http://localhost:8081")
     @GetMapping("/Files")
     public List<String> showAllFiles() throws IOException {
         return fileRepository.getAll();

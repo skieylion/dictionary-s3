@@ -44,8 +44,8 @@ public class FileRepositoryImpl implements FileRepository {
     }
 
     @Override
-    public void delete() {
-
+    public void delete(String fileId) {
+        amazonS3.deleteObject(bucketName,fileId);
     }
 
     @Override

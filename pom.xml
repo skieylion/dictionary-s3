@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>cloud.service</groupId>
-	<artifactId>s3</artifactId>
+	<artifactId>dictionary-s3</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>s3</name>
+	<name>dictionary-s3</name>
 	<description>rest service is for connecting to localstack/aws</description>
 	<properties>
 		<java.version>11</java.version>

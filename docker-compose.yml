@@ -25,14 +25,18 @@ services:
     volumes:
       - s3-data:/var/lib/s3
   s3-app:
-      depends_on:
+     depends_on:
         - localstack
-      build:
-        context: ./s3
+     container_name: s3-app
+     build:
+        context: .
         dockerfile: Dockerfile
-      networks:
+     environment:
+        - AWS_ACCESS_KEY_ID=qwe
+        - AWS_SECRET_ACCESS_KEY=asd
+     networks:
         - skynet-s3
-      ports:
+     ports:
         - 8082:8082
 networks:
   skynet-s3:

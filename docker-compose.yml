@@ -1,9 +1,5 @@
 version: '3'
 
-volumes:
-  s3-data:
-    external: true
-
 services:
   localstack:
     image: localstack/localstack-full:latest
@@ -41,3 +37,6 @@ services:
 networks:
   skynet-s3:
     name: "skynet-s3"
+volumes:
+  s3-data:
+    external: true
